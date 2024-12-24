@@ -16,6 +16,19 @@ export function getProduct(req,res){
 
 
 export function createProduct(req,res){
+     console.log(req.user)
+     if(req.user == null)   {
+         res.json({
+             message:"your are not logged in"
+         })
+         return
+     }
+     if(req.user.type!="admin"){
+         res.json({
+             message:"you are not admin"
+         })
+         return
+     }
     const product = new Product(req.body);
     product.save().then(()=>{
         res.json({
