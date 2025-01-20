@@ -5,9 +5,11 @@ import studentRouter from './routes/studentRouter.js';
 import productRouter from './routes/productRouter.js';
 import userRouter from './routes/userRouter.js';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 //express,bodyparser,mongoose are libraries
 const app =express();
-const mongoUrl ="mongodb+srv://admin:1234@cluster0.ry4fm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+const mongoUrl =process.env.MONGO_DB_URI;
 
 //connect database
 mongoose.connect(mongoUrl,{})

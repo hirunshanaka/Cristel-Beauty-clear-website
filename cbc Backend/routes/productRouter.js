@@ -4,6 +4,10 @@ import { createProduct, deleteProduct, getProduct, getProductByName } from "../c
 const productRouter = express.Router();
 
 productRouter.get("/", getProduct);
+productRouter.get("/filter",(req,res)=>{
+    res.json({message:"this is product filtering area"})
+});
+
 productRouter.get("/:name",getProductByName);
 productRouter.post("/", createProduct);
 productRouter.delete("/:name", deleteProduct);

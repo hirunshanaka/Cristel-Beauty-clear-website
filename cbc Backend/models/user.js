@@ -20,6 +20,10 @@ const userSchema =mongoose.Schema({
     },
     isBlocked:{
         type:Boolean,
+        default:false
+    },
+    type:{
+        type:String,
         default:"customer"
     },
     profilepicture:{
