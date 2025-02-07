@@ -1,8 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import studentRouter from './routes/studentRouter.js';
-import productRouter from './routes/productRouter.js';
 import userRouter from './routes/userRouter.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -37,8 +35,8 @@ app.use(
         next();
     }
 )
-app.use("/api/students",studentRouter)
-app.use("/api/products",productRouter)
+
+  
 app.use("/api/users",userRouter)
 
 

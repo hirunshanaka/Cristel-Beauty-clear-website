@@ -1,39 +1,55 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken"; 
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+
 dotenv.config();
+
 export function createUser(req, res) {
   try {
     const newUserData = req.body;
-    if (!newUserData.email || !newUserData.password) {
-      return res.json({
-        message: "Email and password are required",
-      });
+
+    // Check if user type is "admin" and validate req.user existence
+    if (newUserData.type === "admin") {
+      if (!req.user) {
+        return res.json({
+          message: "Please log in as an administrator to create an admin account",
+        });
+      }
+      if (req.user.type !== "admin") {
+        return res.json({
+          message: "Only administrators can create admin accounts",
+        });
+      }
     }
 
-    if (newUserData.password.length < 8) {
+    // Check password length
+    if (!newUserData.password || newUserData.password.length < 8) {
       return res.json({
         message: "Password must be at least 8 characters long",
       });
     }
 
+    // Hash the password
     newUserData.password = bcrypt.hashSync(newUserData.password, 10);
 
+    // Create and save the user
     const user = new User(newUserData);
     console.log(newUserData);
+
     user.save().then(() => {
-      res.json({
-        message: "User  created",
+        res.json({
+          message: "User created successfully",
+        });
+      })
+      .catch((error) => {
+        console.error("Error saving user:", error);
+        res.json({
+          message: "User not created",
+        });
       });
-    }).catch((error) => {
-      console.error(error);
-      res.json({
-        message: "User  not created",
-      });
-    });
   } catch (error) {
-    console.error(error);
+    console.error("Error in createUser:", error);
     res.json({
       message: "An error occurred",
     });
@@ -42,50 +58,58 @@ export function createUser(req, res) {
 
 export function loginUser(req, res) {
   try {
-    if (!req.body.email || !req.body.password) {
+    const { email, password } = req.body;
+
+    // Validate email and password input
+    if (!email || !password) {
       return res.json({
         message: "Email and password are required",
       });
     }
 
-    User.find({ email: req.body.email }).then((users) => {
+    // Find user by email
+    User.find({ email }).then((users) => {
       if (users.length === 0) {
         return res.json({
-          message: "User  not found",
+          message: "User not found",
         });
       }
-    
+
       const user = users[0];
-      const isPasswordMatch = bcrypt.compareSync(req.body.password, user.password);
+
+      // Compare hashed password
+      const isPasswordMatch = bcrypt.compareSync(password, user.password);
       if (isPasswordMatch) {
-       const token =jwt.sign({
-        email:user.email,
-        firstName:user.firstName,
-        lastName:user.lastName,
-        isBlocked:user.isBlocked,
-        type:user.type,
-        profilepicture:user.profilepicture
-        
-       },process.env.SECRET);
-       console.log(token)
-       res.json({
-         message: "User logged in",
-         token:token
-       })
+        // Generate JWT token
+        const token = jwt.sign(
+          {
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            isBlocked: user.isBlocked,
+            type: user.type,
+            profilePicture: user.profilePicture,
+          },
+          process.env.SECRET,
+          { expiresIn: "1h" } // Optional: token expiry
+        );
 
+        console.log("Token generated:", token);
 
+        res.json({
+          message: "User logged in successfully",
+          token: token,
+        });
       } else {
         res.json({
-          message: "User  not logged in",
+          message: "Incorrect password",
         });
       }
-    }) 
-} 
-catch (error) {
-  console.error(error);
-  res.json({
-    message: "An error occurred",
-  });
+    });
+  } catch (error) {
+    console.error("Error in loginUser:", error);
+    res.json({
+      message: "An error occurred",
+    });
+  }
 }
-} 
-
