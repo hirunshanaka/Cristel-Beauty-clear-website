@@ -113,3 +113,15 @@ export function loginUser(req, res) {
     });
   }
 }
+export function isAdmin(req) {
+  if (req.user && req.user.type === "admin") {
+    return true;
+  }
+  return false;
+} 
+export function iscutomer(req) {
+  if (req.user && req.user.type === "customer") {
+    return true;
+  }
+  return false;
+}

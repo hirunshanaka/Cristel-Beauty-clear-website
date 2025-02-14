@@ -20,5 +20,23 @@ const productSchema =mongoose.Schema({
             type:String,
         }
     ],
+    price:{
+        type:Number,
+        required:true
+    },
+    lastPrice:{
+        type:Number,
+        required:true
+    },
+    stock:{
+        type:Number,
+        required:true
+    },
+    discription:{
+        type:String,
+        required:true
     }
-)
+})
+const product = mongoose.model("products",productSchema)
+    
+export default product;
