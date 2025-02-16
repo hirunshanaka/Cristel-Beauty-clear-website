@@ -24,7 +24,8 @@ const userSchema =mongoose.Schema({
     },
     type:{
         type:String,
-        default:"customer"
+        enum: ["admin", "customer"],
+        required: true
     },
     profilepicture:{
         type:String,
@@ -33,4 +34,4 @@ const userSchema =mongoose.Schema({
 })
 //crete the model
 const User = mongoose.model("users",userSchema);
-export default User
+export default User;
