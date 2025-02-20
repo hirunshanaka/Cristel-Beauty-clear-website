@@ -2,26 +2,29 @@ import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-
+import axios from "axios";
 dotenv.config();
 
 export function createUser(req, res) {
   try {
     const newUserData = req.body;
+    
+    
 
     // Check if user type is "admin" and validate req.user existence
-    if (newUserData.type === "admin") {
-      if (!req.user) {
+     if (newUserData.type == "admin") {
+      if (req.user==null) {
         return res.json({
           message: "Please log in as an administrator to create an admin account",
         });
       }
-      if (req.user.type !== "admin") {
+      if (req.user.type !="admin") {
         return res.json({
           message: "Only administrators can create admin accounts",
         });
       }
     }
+
 
     // Check password length
     if (!newUserData.password || newUserData.password.length < 8) {
@@ -91,7 +94,7 @@ export function loginUser(req, res) {
             profilePicture: user.profilePicture,
           },
           process.env.SECRET,
-          { expiresIn: "1h" } // Optional: token expiry
+         // { expiresIn: "1h" } // Optional: token expiry
         );
 
         console.log("Token generated:", token);
@@ -119,7 +122,7 @@ export function isAdmin(req) {
   }
   return false;
 } 
-export function iscutomer(req) {
+export function iscustomer(req) {
   if (req.user && req.user.type === "customer") {
     return true;
   }
