@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import axios from "axios";
 dotenv.config();
-
 export function createUser(req, res) {
   try {
     const newUserData = req.body;
@@ -123,8 +122,6 @@ export function isAdmin(req) {
   return false;
 } 
 export function iscustomer(req) {
-  if (req.user && req.user.type === "customer") {
-    return true;
-  }
-  return false;
+  return req.user && req.user.type === "customer";
+  
 }
