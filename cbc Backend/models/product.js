@@ -32,7 +32,7 @@ const productSchema =mongoose.Schema({
         type:Number,
         required:true
     },
-    discription:{
+    description:{
         type:String,
         required:true
     }

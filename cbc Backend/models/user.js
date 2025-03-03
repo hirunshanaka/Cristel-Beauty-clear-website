@@ -24,7 +24,7 @@ const userSchema =mongoose.Schema({
     },
     type:{
         type:String,
-        enum: ["admin", "customer"],
+        default:"customer",
         required: true
     },
     profilepicture:{

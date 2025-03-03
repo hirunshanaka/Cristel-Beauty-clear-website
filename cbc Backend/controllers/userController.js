@@ -2,7 +2,7 @@ import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import axios from "axios";
+
 dotenv.config();
 export function createUser(req, res) {
   try {
@@ -23,15 +23,6 @@ export function createUser(req, res) {
         });
       }
     }
-
-
-    // Check password length
-    if (!newUserData.password || newUserData.password.length < 8) {
-      return res.json({
-        message: "Password must be at least 8 characters long",
-      });
-    }
-
     // Hash the password
     newUserData.password = bcrypt.hashSync(newUserData.password, 10);
 
@@ -93,7 +84,7 @@ export function loginUser(req, res) {
             profilePicture: user.profilePicture,
           },
           process.env.SECRET,
-         // { expiresIn: "1h" } // Optional: token expiry
+          { expiresIn: "1h" } // Optional: token expiry
         );
 
         console.log("Token generated:", token);
@@ -116,12 +107,12 @@ export function loginUser(req, res) {
   }
 }
 export function isAdmin(req) {
-  if (req.user && req.user.type === "admin") {
+  if (req.user && req.user.type == "admin") {
     return true;
   }
   return false;
 } 
-export function iscustomer(req) {
-  return req.user && req.user.type === "customer";
+export function isCustomer(req) {
+  return req.user && req.user.type == "customer";
   
 }
