@@ -21,14 +21,20 @@ export function createProduct(req, res) {
       });
     })
     .catch((error) => {
-      res.status(403).json({
-        message: error,
+      res.status(500).json({
+        message: error.message,
       });
     });
 }
 
 export function getProducts(req, res) {
-  Product.find({}).then((products) => {
-    res.json(products);
-  });
+  Product.find({})
+    .then((products) => {
+      res.json(products);
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: error.message,
+      });
+    });
 }

@@ -61,14 +61,12 @@ export function loginUser(req, res) {
     }
 
     // Find user by email
-    User.find({ email }).then((users) => {
-      if (users.length === 0) {
+    User.findOne({ email }).then((user) => {
+      if (!user) {
         return res.json({
           message: "User not found",
         });
       }
-
-      const user = users[0];
 
       // Compare hashed password
       const isPasswordMatch = bcrypt.compareSync(password, user.password);
