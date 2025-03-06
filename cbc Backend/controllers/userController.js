@@ -2,13 +2,11 @@ import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-
+import axios from "axios";
 dotenv.config();
 export function createUser(req, res) {
   try {
     const newUserData = req.body;
-    
-    
 
     // Check if user type is "admin" and validate req.user existence
      if (newUserData.type == "admin") {
@@ -49,7 +47,7 @@ export function createUser(req, res) {
   }
 }
 
-export function loginUser(req, res) {
+export async function loginUser(req, res) {
   try {
     const { email, password } = req.body;
 
@@ -61,12 +59,14 @@ export function loginUser(req, res) {
     }
 
     // Find user by email
-    User.findOne({ email }).then((user) => {
-      if (!user) {
+    const users = await User.find({ email });
+      if (users.length === 0) {
         return res.json({
           message: "User not found",
         });
       }
+
+      const user = users[0];
 
       // Compare hashed password
       const isPasswordMatch = bcrypt.compareSync(password, user.password);
@@ -82,7 +82,6 @@ export function loginUser(req, res) {
             profilePicture: user.profilePicture,
           },
           process.env.SECRET,
-          { expiresIn: "1h" } // Optional: token expiry
         );
 
         console.log("Token generated:", token);
@@ -96,21 +95,34 @@ export function loginUser(req, res) {
           message: "Incorrect password",
         });
       }
-    });
-  } catch (error) {
+    }
+   catch (error) {
     console.error("Error in loginUser:", error);
     res.json({
       message: "An error occurred",
     });
   }
 }
-export function isAdmin(req) {
-  if (req.user && req.user.type == "admin") {
-    return true;
+export function isAdmin(req){
+  if(req.user==null){
+    return false
   }
-  return false;
-} 
-export function isCustomer(req) {
-  return req.user && req.user.type == "customer";
-  
+
+  if(req.user.type != "admin"){
+    return false
+  }
+
+  return true
+}
+
+export function isCustomer(req){
+  if(req.user==null){
+    return false
+  }
+
+  if(req.user.type != "customer"){
+    return false
+  }
+
+  return true
 }

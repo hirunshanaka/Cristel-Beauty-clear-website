@@ -12,22 +12,23 @@ dotenv.config();
 
 const app = express();
 const mongoUrl = process.env.MONGO_DB_URI;
+app.use(cors());
 
 // Connect to MongoDB
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoUrl,{});
 const connection = mongoose.connection;
 connection.once("open", () => console.log("Database connected"));
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+
 
 // Authentication Middleware
 app.use((req, res, next) => {
   const token = req.header("Authorization")?.replace("Bearer ", "");
   if (token) {
     jwt.verify(token, process.env.SECRET, (error, decoded) => {
-      if (!error) req.user = decoded;
+      if (!error) req.user = decoded; 
     });
   }
   next();
