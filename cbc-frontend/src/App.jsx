@@ -4,12 +4,13 @@ import HomePage from './pages/home/homePage'
 import LoginPage from './pages/home/loginPage'
 import SigninPage from './pages/home/signinPage'
 import AdminHomePage from './pages/home/adminHomePage'
- 
+import { Toaster } from 'react-hot-toast'
 //import UserData from './components/userData'
 function App() {
   return (
     <>
       <BrowserRouter>
+      <Toaster/>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />

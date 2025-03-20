@@ -89,6 +89,13 @@ export async function loginUser(req, res) {
         res.json({
           message: "User logged in successfully",
           token: token,
+          user:{
+            firstName:user.firstName,
+            lastName:user.lastName,
+            email:user.email,
+            profilepicture:user.profilePicture,
+            type:user.type
+          }
         });
       } else {
         res.json({

@@ -1,29 +1,42 @@
+import axios from "axios";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 export default function LoginPage() {
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-            <div className="bg-white shadow-lg rounded-2xl p-8 max-w-sm w-full text-center">
-                <h1 className="text-3xl font-bold text-gray-700 mb-6">Login Page</h1>
-                <form className="flex flex-col space-y-4">
-                    <input 
-                        type="text" 
-                        placeholder="Enter your email" 
-                        className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <input 
-                        type="password" 
-                        placeholder="Enter your password" 
-                        className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <button 
-                        className="bg-blue-600 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition duration-300"
-                    >
-                        Login
-                    </button>
-                </form>
-                <Link to="/" className="mt-4 inline-block text-blue-600 hover:underline">Home</Link>
-            </div>
-        </div>
-    );
+   const [email, setEmail] = useState("your email");
+   const [password, setPassword] = useState("");
+   
+   function Login() {
+      axios.post("http://localhost:5000/api/users/login", {
+         email: email,
+         password: password
+      }).then((res) => {
+         console.log(res);
+         if (res.data.user == null) {
+            toast.error(res.data.message)
+            return;
+         }
+         toast.success("Login Success");
+         localStorage.setItem("token", res.data.token); //we can save key value pairs in local storage
+         if (res.data.user.type == "admin") {
+            window.location.href = "/admin";  //send admin path to admin page
+         }else{
+            window.location.href="/"
+         }
+      });
+   }
+
+   return (
+       <div className="bg-red-800 w-full h-screen flex items-center justify-center">
+          <div className="w-[480px] h-[480px] bg-blue-600 flex flex-col items-center justify-center">
+             <img src="/001.jpg" className="rounded-full w-[100px] h-[90px]" />
+             <span>Email</span>
+             <input value={email} onChange={(e) => setEmail(e.target.value)} />
+             <span>Password</span>
+             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+             <button className="bg-white" onClick={Login}>Login</button>
+          </div>
+       </div>
+   );
 }
