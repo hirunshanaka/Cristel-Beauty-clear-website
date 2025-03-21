@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { GoGraph } from "react-icons/go";
 import { FaBoxOpen, FaClipboardList, FaUsers, FaSignOutAlt } from "react-icons/fa";
+import AdminProductPage from "../admin/adminProductPage";
 
 export default function AdminHomePage() {
     return (
@@ -27,10 +28,10 @@ export default function AdminHomePage() {
             </div>
             
             {/* Main Content */}
-            <div className="w-[80%] h-screen bg-red-500 flex items-center justify-center">
+            <div className="w-[80%] h-screen  ">
                 <Routes path="/*">
                     <Route path="/dashboard" element={<h1>Dashboard</h1>} />                                    
-                    <Route path="/product" element={<h1>Admin Product Page</h1>} />    
+                    <Route path="/product" element={<AdminProductPage/>} />    
                     <Route path="/order" element={<h1>Orders</h1>} />
                     <Route path="/users" element={<h1>Users</h1>} />
                     <Route path="/*" element={<h1>404 not found the admin page </h1>} />
