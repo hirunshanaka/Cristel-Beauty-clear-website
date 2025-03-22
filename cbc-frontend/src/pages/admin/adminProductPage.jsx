@@ -13,7 +13,7 @@ export default function AdminProductPage() {
 
     return (
         <div className="container mx-auto p-6">
-            <Link to={"admin/products/addproduct"} className="absolute right-[25px] bottom-[25px] text-[25px] bg-blue-500 text-white rounded-full p-4 hover:bg-blue-300"><FaPlus/></Link>
+            <Link to={"./addproduct"} className="absolute right-[25px] bottom-[25px] text-[25px] bg-blue-500 text-white rounded-full p-4 hover:bg-blue-300"><FaPlus/></Link>
             <h1 className="text-2xl font-bold text-center mb-6">Admin Product Page</h1>
             <div className="overflow-x-auto">
                 <table className="w-full table-auto border-collapse shadow-lg">

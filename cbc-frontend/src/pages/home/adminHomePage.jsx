@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { GoGraph } from "react-icons/go";
 import { FaBoxOpen, FaClipboardList, FaUsers, FaSignOutAlt } from "react-icons/fa";
 import AdminProductPage from "../admin/adminProductPage";
+import AddProductForm from "../admin/addProductForm";
 
 export default function AdminHomePage() {
     return (
@@ -31,7 +32,8 @@ export default function AdminHomePage() {
             <div className="w-[80%] h-screen  ">
                 <Routes path="/*">
                     <Route path="/dashboard" element={<h1>Dashboard</h1>} />                                    
-                    <Route path="/product" element={<AdminProductPage/>} />    
+                    <Route path="/product" element={<AdminProductPage/>} />  
+                    <Route path="/product/addproduct" element={<AddProductForm/>} />  
                     <Route path="/order" element={<h1>Orders</h1>} />
                     <Route path="/users" element={<h1>Users</h1>} />
                     <Route path="/*" element={<h1>404 not found the admin page </h1>} />
