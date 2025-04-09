@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function AddProductForm() {
     const [productID, setProductID] = useState("");
@@ -11,8 +13,42 @@ export default function AddProductForm() {
     const [description, setDescription] = useState("");
 
     {/* add product button click and after send the data to the database*/ }
-    function handelSubmit(){
-        console.log(productID, productName, altName, imageURL, price, lastPrice, stock, description);
+    async function handleSubmit(){
+        const altNames=altName.split(",");
+        const imgurls=imageURL.split(",");
+        const Product={
+            productID:productID,
+            productName:productName,
+            altName:altNames,
+            images:imgurls,
+            price:price,
+            lastPrice:lastPrice,    
+            stock:stock,
+            description:description
+        }
+        {/* get the token from the local storage*/ }
+        const token = localStorage.getItem("token");
+        
+        if (!token) {
+            toast.error("No token found. Please log in.");
+            return;
+        }
+
+        console.log("Token:", token);
+
+        try {
+            const response = await axios.post("http://localhost:5000/api/products", Product, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            console.log("Response:", response);
+            toast.success("Product Added");
+        } catch (err) {
+            console.error("Error:", err);
+            console.log("Error Response:", err.response);
+            toast.error("Failed to add product");
+        }
     }
     
     return (
@@ -54,7 +90,7 @@ export default function AddProductForm() {
                         <label className="text-gray-600 text-sm">Description</label>
                         <textarea className="p-1 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-400" value={description} onChange={(e) => setDescription(e.target.value)}/>
                     </div>
-                    <button className="bg-blue-500 text-white text-sm font-medium py-1 rounded-md hover:bg-blue-600 transition"onClick={handelSubmit}>
+                    <button className="bg-blue-500 text-white text-sm font-medium py-1 rounded-md hover:bg-blue-600 transition" onClick={handleSubmit}>
                         Add Product
                     </button>
                 </div>

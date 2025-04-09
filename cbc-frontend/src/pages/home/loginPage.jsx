@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 export default function LoginPage() {
-   const [email, setEmail] = useState("your email");
+   const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    
    function Login() {
@@ -14,28 +14,51 @@ export default function LoginPage() {
       }).then((res) => {
          console.log(res);
          if (res.data.user == null) {
-            toast.error(res.data.message)
+            toast.error(res.data.message);
             return;
          }
          toast.success("Login Success");
-         localStorage.setItem("token", res.data.token); //we can save key value pairs in local storage
-         if (res.data.user.type == "admin") {
-            window.location.href = "/admin";  //send admin path to admin page
-         }else{
-            window.location.href="/"
+         localStorage.setItem("token", res.data.token);
+         if (res.data.user.type === "admin") {
+            window.location.href = "/admin";
+         } else {
+            window.location.href = "/";
          }
       });
    }
 
    return (
-       <div className="bg-red-800 w-full h-screen flex items-center justify-center">
-          <div className="w-[480px] h-[480px] bg-blue-600 flex flex-col items-center justify-center">
-             <img src="/001.jpg" className="rounded-full w-[100px] h-[90px]" />
-             <span>Email</span>
-             <input value={email} onChange={(e) => setEmail(e.target.value)} />
-             <span>Password</span>
-             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-             <button className="bg-white" onClick={Login}>Login</button>
+       <div className="w-full h-screen flex items-center justify-center bg-gray-900">
+          <div className="w-[400px] p-8 bg-gray-800 rounded-2xl shadow-lg flex flex-col items-center">
+             <img src="/001.jpg" className="rounded-full w-24 h-24 border-4 border-gray-700 shadow-md mb-4" alt="User Avatar" />
+             <h2 className="text-xl font-semibold text-white mb-6">Login</h2>
+             <div className="w-full mb-4">
+                <label className="block text-gray-300 mb-1">Email</label>
+                <input 
+                   type="email" 
+                   value={email} 
+                   onChange={(e) => setEmail(e.target.value)} 
+                   className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+             </div>
+             <div className="w-full mb-6">
+                <label className="block text-gray-300 mb-1">Password</label>
+                <input 
+                   type="password" 
+                   value={password} 
+                   onChange={(e) => setPassword(e.target.value)} 
+                   className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+             </div>
+             <button 
+                className="w-full py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300"
+                onClick={Login}
+             >
+                Login
+             </button>
+             <p className="text-gray-400 text-sm mt-4">
+                Don't have an account? <Link to="/register" className="text-blue-400 hover:underline">Sign up</Link>
+             </p>
           </div>
        </div>
    );

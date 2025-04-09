@@ -36,7 +36,7 @@ export default function AdminHomePage() {
                     <Route path="/product/addproduct" element={<AddProductForm/>} />  
                     <Route path="/order" element={<h1>Orders</h1>} />
                     <Route path="/users" element={<h1>Users</h1>} />
-                    <Route path="/*" element={<h1>404 not found the admin page </h1>} />
+                   
 
                 </Routes>
             
