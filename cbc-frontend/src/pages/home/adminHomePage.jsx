@@ -9,7 +9,7 @@ export default function AdminHomePage() {
     return (
         <div className="bg-gray-100 w-full h-screen flex">
             {/* Sidebar */}
-            <div className="w-[20%] h-screen bg-blue-500 text-white flex flex-col items-center p-4 space-y-6">
+            <div className="w-[20%] h-screen bg-blue-500 text-white flex flex-col items-center  p-4 space-y-6">
                 <h1 className="text-2xl font-bold">Admin Panel</h1>
                 <Link className="flex items-center space-x-2 hover:text-black" to="/admin/dashboard">
                     <GoGraph /> <span>Dashboard</span>

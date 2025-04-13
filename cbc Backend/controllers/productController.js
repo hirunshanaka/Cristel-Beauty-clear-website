@@ -32,3 +32,29 @@ export function getProducts(req, res) {
     res.json(products);
   });
 }
+
+
+
+{/* Delete a product by ID */}
+export function deleteProduct(req,res){
+  if(!isAdmin(req)){
+    res.status(403).json({
+      message:"Please login as administrator to delete products"
+    })
+    return
+  }
+  {/* Get the product ID from the request parameters */}
+  const productId = req.params.productId
+
+  Product.deleteOne(
+    { productID: productID }
+  ).then(() => {
+    res.json({
+      message: "Product Deleted"
+    })
+  }).catch((error) => {
+    res.status(403).json({
+      message: error.message || "An error occurred while deleting the product"
+    });
+  });
+}

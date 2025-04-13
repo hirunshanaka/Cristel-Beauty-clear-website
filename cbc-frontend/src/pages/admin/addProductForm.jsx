@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function AddProductForm() {
     const [productID, setProductID] = useState("");
@@ -11,6 +12,8 @@ export default function AddProductForm() {
     const [lastPrice, setLastPrice] = useState("");
     const [stock, setStock] = useState("");
     const [description, setDescription] = useState("");
+    const navigate = useNavigate();
+
 
     {/* add product button click and after send the data to the database*/ }
     async function handleSubmit(){
@@ -42,6 +45,10 @@ export default function AddProductForm() {
                     Authorization: `Bearer ${token}`,
                 }
             });
+
+            {/* navigate to the admin product page */}
+            navigate("/admin/product");
+            
             console.log("Response:", response);
             toast.success("Product Added");
         } catch (err) {
