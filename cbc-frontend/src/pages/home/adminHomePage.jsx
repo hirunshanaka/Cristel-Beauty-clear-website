@@ -4,6 +4,7 @@ import { GoGraph } from "react-icons/go";
 import { FaBoxOpen, FaClipboardList, FaUsers, FaSignOutAlt } from "react-icons/fa";
 import AdminProductPage from "../admin/adminProductPage";
 import AddProductForm from "../admin/addProductForm";
+import EditProductForm from "../admin/editProductForm";
 
 export default function AdminHomePage() {
     return (
@@ -33,13 +34,12 @@ export default function AdminHomePage() {
                 <Routes path="/*">
                     <Route path="/dashboard" element={<h1>Dashboard</h1>} />                                    
                     <Route path="/product" element={<AdminProductPage/>} />  
-                    <Route path="/product/addproduct" element={<AddProductForm/>} />  
+                    <Route path="/product/addproduct" element={<AddProductForm/>} />
+                    <Route path="/product/editproduct" element={<EditProductForm />} />  
                     <Route path="/order" element={<h1>Orders</h1>} />
                     <Route path="/users" element={<h1>Users</h1>} />
-                   
-
+                    
                 </Routes>
-            
             </div>
         </div>
     );

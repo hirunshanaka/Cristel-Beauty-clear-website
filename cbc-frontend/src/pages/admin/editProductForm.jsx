@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import uploadmediaToSupabase from "../../utilites/mediaUpload";
 
-export default function AddProductForm() {
+export default function EditProductForm() {
     const [productID, setProductID] = useState("");
     const [productName, setProductName] = useState(""); 
     const [altName, setAltName] = useState("");
@@ -13,7 +13,7 @@ export default function AddProductForm() {
     const [lastPrice, setLastPrice] = useState("");
     const [stock, setStock] = useState("");
     const [description, setDescription] = useState("");
-    const navigate = useNavigate();
+    
 
 
     {/* add product button click and after send the data to the database*/ }
@@ -68,12 +68,14 @@ export default function AddProductForm() {
             toast.error("Failed to add product");
         }
     }
+    const navigate = useNavigate();
+    {/* navigate to the admin product page */}
     
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="bg-white p-4 rounded-lg shadow-md w-80">
                 <h1 className="text-lg font-semibold text-center text-gray-800 mb-3">
-                    Add Product
+                    Edit Product
                 </h1>
                 <div className="flex flex-col gap-3">
                     <div className="flex flex-col">

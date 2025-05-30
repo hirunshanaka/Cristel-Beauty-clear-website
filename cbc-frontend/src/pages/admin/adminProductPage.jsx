@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaTrash, FaPencilAlt, FaPlus } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 export default function AdminProductPage() {
     const [products, setProducts] = useState([]);
     {/* useEffect to get the data from the server and set the data to the products state */}
@@ -71,8 +71,9 @@ export default function AdminProductPage() {
                                         }}>
                                         <FaTrash />
                                     </button>
-                                    <button className="text-blue-500 hover:text-blue-700">
+                                    <button className="text-blue-500 hover:text-blue-700" onClick={()=>{Navigate("/admin/product/editproduct") }}>
                                         <FaPencilAlt />
+
                                     </button>
                                 </td>
                             </tr>
